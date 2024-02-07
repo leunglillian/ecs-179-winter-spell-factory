@@ -4,11 +4,12 @@ using UnityEngine;
 
 namespace Arcanum
 {
-    public enum Spells { Fireball, BlackHole, Meteor}
+    public enum Spells { Fireball, BlackHole, Meteor, EnergyOrb }
 
     [RequireComponent(typeof(BlackHoleMaker))]
     [RequireComponent(typeof(FireballMaker))]
     [RequireComponent(typeof(MeteorMaker))]
+    [RequireComponent(typeof(EnergyOrbMaker))]
     public class SpellFactory : MonoBehaviour
     {
         public void BuildSpell(Spells type)
@@ -28,6 +29,11 @@ namespace Arcanum
                 var fireball = this.GetComponent<MeteorMaker>().Make();
                 fireball.transform.position = this.transform.position;
             }
+            else if (Spells.EnergyOrb == type)
+            {
+                var energyOrb = this.GetComponent<EnergyOrbMaker>().Make();
+                energyOrb.transform.position = this.transform.position;
+            }
         }
 
         public void Update()
@@ -43,6 +49,10 @@ namespace Arcanum
             else if (Input.GetButtonDown("Fire2"))
             {
                 this.BuildSpell(Spells.Meteor);
+            }
+            else if (Input.GetKeyDown(KeyCode.K));
+            {
+                this.BuildSpell(Spells.EnergyOrb);
             }
          }
 
