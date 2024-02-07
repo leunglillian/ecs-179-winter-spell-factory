@@ -4,9 +4,10 @@ using UnityEngine;
 
 namespace Arcanum
 {
-    public enum Spells { Fireball, BlackHole, Meteor, EnergyOrb, RollingBomb, MagicCube }
+    public enum Spells { Fireball, Nerf, BlackHole, Meteor, EnergyOrb, RollingBomb, MagicCube }
 
     [RequireComponent(typeof(BlackHoleMaker))]
+    [RequireComponent(typeof(NerfMaker))]
     [RequireComponent(typeof(FireballMaker))]
     [RequireComponent(typeof(MeteorMaker))]
     [RequireComponent(typeof(EnergyOrbMaker))]
@@ -21,6 +22,13 @@ namespace Arcanum
             {
                 var blackHole = this.GetComponent<BlackHoleMaker>().Make();
                 blackHole.transform.position = this.transform.position;
+            }
+            else if (Spells.Nerf == type)
+            {
+                var nerf = this.GetComponent<NerfMaker>().Make();
+                nerf.transform.position = this.transform.position;
+                // Nerf should come out of the turret.
+                nerf.transform.position += new Vector3(0f, Random.Range(.55f, .75f), -.5f);
             }
             else if (Spells.Fireball == type)
             {
@@ -48,7 +56,7 @@ namespace Arcanum
         {
             if (Input.GetButtonDown("Jump"))
             {
-                this.BuildSpell(Spells.BlackHole);
+                this.BuildSpell(Spells.Nerf);
             }
             else if(Input.GetButtonDown("Fire1"))
             {
